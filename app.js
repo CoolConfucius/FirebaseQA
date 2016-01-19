@@ -14,24 +14,25 @@ $(document).ready(function(){
   $body = $('#body'); 
   $('#addQuestion').click(addQuestion); 
   $body.on('click', '.title', view);
-  $body.on('click', '.addComment', addComment);
+  $body.on('click', '.addAnswer', addAnswer);
 
   $('#adminMode').click(adminMode);
-  $body.on('click', '.editConfirm', confirm);
+  $('#help').click(function(){alert("Enter a title and content for your question and hit submit. Give a tag to help users now what your question is about. To view the content of a question and answer it, click on its title.")});
+  // $body.on('click', '.editConfirm', confirm);
 
 });
 
 
 
-
-
 function addQuestion(){  
   console.log('begin add');
+  if (!$newTitle.val()) { alert("Enter a title for your question."); return; };
+  if (!$newContent.val()) { alert("Enter content for your question."); return; };
   var title = $newTitle.val();
   var content = $newContent.val();
   var tag = $newTag.val();
   var now = moment().format('DD-MM-YYYY'); 
-  var comments = []; 
+  var answers = []; 
   console.log(now);
   $newTitle.val('');
   $newContent.val('');
@@ -42,7 +43,7 @@ function addQuestion(){
     content: content, 
     date: now, 
     tag: tag, 
-    comments: comments
+    answers: answers
   }); 
 }
 
@@ -57,39 +58,38 @@ console.log('on vlau');
       var content = qaObject[key].content; 
       var date = qaObject[key].date; 
       var tag = qaObject[key].tag; 
-      var comments = qaObject[key].comments; 
-      console.log("comments", comments);
+      var answers = qaObject[key].answers; 
 
       // visible: 
       var $item = $('<div>').addClass('item row').data('fbid', key);
       var $visible = $('<div>').addClass('visible row');
-      var $title = $('<span>').addClass('title col-sm-7 btn btn-default').text(title); 
+      var $title = $('<span>').addClass('title col-sm-6 btn btn-primary').text(title); 
       var $date = $('<span>').addClass('date col-sm-3').text(date); 
-      $visible.append($title, $date); 
+      var $tag = $('<span>').addClass('tag col-sm-3').text(tag)
+      $visible.append($title, $date, $tag); 
 
       // view: 
       var $view = $('<div>').addClass('view row').hide();
-      var $content = $('<div>').addClass('content').text(content); 
+      var $content = $('<div>').addClass('content').text('Q: ', content); 
       $view.append($content);
-      var $comments = $('<ul>').addClass('comments'); 
-      for (var key in comments) {
-        if (comments.hasOwnProperty(key)) {
-          var entry = comments[key]; 
-          var $comment = $('<li>').addClass('comment row').text(entry); 
-          $comments.append($comment); 
+      var $answers = $('<ul>').addClass('answers').text('answers:'); 
+      for (var key in answers) {
+        if (answers.hasOwnProperty(key)) {
+          var entry = answers[key]; 
+          var $answer = $('<li>').addClass('answer row').text(entry); 
+          $answers.append($answer); 
         }
       }
-      $view.append($comments); 
+      $view.append($answers); 
       
-      var $inputComment = $('<input>').addClass('inputComment'); 
-      var $addComment = $('<button>').addClass('addComment btn btn-success').text('Add Comment'); 
-      $view.append($inputComment, $addComment);
+      var $inputAnswer = $('<input>').addClass('inputAnswer col-sm-offset-1'); 
+      var $addAnswer = $('<button>').addClass('addAnswer btn btn-success col-sm-offset-1').text('Add answer'); 
+      $view.append($inputAnswer, $addAnswer);
 
       // admin 
       var $admin = $('<div>').addClass('admin row').hide();
       var $remove = $('<button>').addClass('btn btn-danger col-sm-2 remove').text('Remove').click(remove); 
-      var $edit = $('<button>').addClass('btn btn-primary col-sm-2 edit').text('Edit').click(edit); 
-      $admin.append($remove, $edit); 
+      $admin.append($remove); 
 
       $item.append($visible, $admin, $view);
       $body.append($item); 
@@ -111,25 +111,14 @@ function view(){
   }
 }
 
-function addComment(){
+function addAnswer(){
   var $this = $(this); 
   var $view = $this.parent(); 
   var $id = $view.parent().data('fbid'); 
-  var $input = $view.children('.inputComment').val(); 
-  // $parent.append($input);
-  console.log(qaRef.child($id).child('title'), "dfjdkls" );
-  console.log(qaRef.child($id).child('comments') );
-  // if (!qaRef.child($id).comments) { qaRef.child($id).update({ comments: '' })};
-  qaRef.child($id).child('comments').push( $input ); 
-    // contactListRef.child($id).comments.push($input)
-
+  var $input = $view.children('.inputAnswer').val(); 
   
-  // contactListRef.child($id).
-
-
+  qaRef.child($id).child('answers').push( $input ); 
 }
-
-
 
 
 
@@ -146,75 +135,5 @@ function adminMode(){
     $body.find('.admin').show(); 
   } else {
     $body.find('.admin').hide(); 
-  }
-}
-
-
-
-
-function closeEditForm(){
-  var $item = $(this).closest('item'); 
-  $item.removeClass('isEditing');
-  $item.find("#editForm").remove();
-  $item.find("#editForm2").remove();
-};
-
-function confirm(){
-  var $this = $(this); 
-  var $item = $this.closest('.item'); 
-  var $id = $item.data('fbid'); 
-  var editObj = {};
-  editObj.title = $item.find('.editTitle').val(),
-  editObj.content = $item.find('.editContent').val(),
-  editObj.tag = $item.find('.editTag').val()
-  
-  
-  console.log("debugger", editObj);
-  console.log("debugger", qaRef);
-  console.log("debugger", qaRef.child(editObj.id));
-  qaRef.child($id).update({
-    title: editObj.title,
-    content: editObj.content,
-    tag: editObj.tag
-  });   
-  closeEditForm(); 
-  
-};
-
-
-
-
-
-
-function edit(){
-  var $this = $(this); 
-  var $item = $this.closest('.item'); 
-  var $id = $item.data('fbid'); 
-
-  if ($item.hasClass("isEditing")) {
-    closeEditForm(); 
-  } else if(!editingQuestion) {
-    editingQuestion = true; 
-    var editObj = {}; 
-    editObj.id = $id; 
-    $item.addClass("isEditing");
-    
-    editObj.title = $item.find(".title").text(); 
-    editObj.content = $item.find(".content").text(); 
-    editObj.tag = $item.find(".tag").text(); 
-
-    var $editForm = $('<div>').addClass('row editing').attr("id", "editForm");
-    $editForm.append($('<span>').addClass('col-sm-1').text('title:'));
-    $editForm.append($('<input>').addClass('col-sm-4 editTitle').attr({type: "text", id: "edittitle", value: editObj.title} ) );
-  
-    $editForm.append($('<span>').addClass('col-sm-1').text('tags:'));
-    $editForm.append($('<input>').addClass('col-sm-5 editTag').attr({type: "text", id: "edittag", value: editObj.tag} ) );
-    
-    var $editForm2 = $('<div>').addClass('row editing').attr("id", "editForm2");
-    $editForm2.append($('<span>').addClass('col-sm-1').text('content:'));
-    $editForm2.append($('<input>').addClass('col-sm-6 editContent').attr({type: "text", id: "editcontent", value: editObj.content} ) );
-
-    $editForm2.append($('<div>').addClass('col-sm-1 btn btn-default editConfirm').text('Confirm').click(confirm) );
-    $item.append($editForm, $editForm2);    
   }
 }

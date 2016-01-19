@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Firebase QA</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <button id="help" class="btn btn-info col-sm-3">HELP</button>
@@ -12,37 +13,29 @@
     <h1>Q&A</h1>
   </div>
   <div class="container" id="form">
-    
-    <div class="row">
-      <div class="col-sm-1">Show: </div>
-      <div class="col-sm-1 btn btn-default filter" id="showAll">All</div>
-      <div class="col-sm-2 btn btn-default filter" id="showAnswered">Answered</div>
-      <div class="col-sm-2 btn btn-default filter" id="showFamily">Unanswered</div>
-      <div class="col-sm-1" id="showUnanswered">Category: </div>
-      <input class="col-sm-4" type="text" id="customFilter">
-      <div class="col-sm-1 btn btn-default filter" id="showCustom">Go</div>
-    </div>
   
     <div class="row">
       <span class="col-sm-1">Title:</span>
       <input class="col-sm-5" type="text" id="newTitle" required>
-      <span class="col-sm-1">Tags: </span>
+      <span class="col-sm-1">Tag: </span>
       <input class="col-sm-5" type="text" id="newTag">
     </div>
     <div class="row">
-      <span class="col-sm-1">Content:</span>
-      <input class="col-sm-11" type="text" id="newContent">
+      <span class="col-sm-2">Content:</span>
+      <input class="col-sm-10" type="text" id="newContent">
     </div>
     <div class="row">
-      <div class="col-sm-6 btn btn-default" id="addQuestion">Submit</div>      
-      <!-- Show tags -->
+      <div class="col-sm-6 btn btn-success" id="addQuestion">Submit</div>      
+      
     </div>
   </div>
   <br>
   <div class="container" id="labels">
     <div class="row">
-      <div class="col-sm-2 btn btn-default" id="sortAlpha">Title</div>      
-      <div class="col-sm-2 col-sm-offset-5 btn btn-default" id="sortDate">Time Posted</div>
+      <div class="col-sm-2">Title</div>      
+      <div class="col-sm-2 col-sm-offset-4">Time Posted</div>
+      <div class="col-sm-2 col-sm-offset-1">Tag</div>      
+
       
     </div>
   </div>
