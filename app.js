@@ -18,14 +18,12 @@ $(document).ready(function(){
 
   $('#adminMode').click(adminMode);
   $('#help').click(function(){alert("Enter a title and content for your question and hit submit. Give a tag to help users now what your question is about. To view the content of a question and answer it, click on its title.")});
-  // $body.on('click', '.editConfirm', confirm);
 
 });
 
 
 
 function addQuestion(){  
-  console.log('begin add');
   if (!$newTitle.val()) { alert("Enter a title for your question."); return; };
   if (!$newContent.val()) { alert("Enter content for your question."); return; };
   var title = $newTitle.val();
