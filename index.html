@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase QA</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+  <button id="help" class="btn btn-info col-sm-3">HELP</button>
+  <button class="col-sm-6 col-sm-offset-3 btn btn-danger" id="adminMode">Admin Mode</button> 
+  <div class="jumbotron" id="title">
+    <h1>Q&A</h1>
+  </div>
+  <div class="container" id="form">
+    
+    <div class="row">
+      <div class="col-sm-1">Show: </div>
+      <div class="col-sm-1 btn btn-default filter" id="showAll">All</div>
+      <div class="col-sm-2 btn btn-default filter" id="showAnswered">Answered</div>
+      <div class="col-sm-2 btn btn-default filter" id="showFamily">Unanswered</div>
+      <div class="col-sm-1" id="showUnanswered">Category: </div>
+      <input class="col-sm-4" type="text" id="customFilter">
+      <div class="col-sm-1 btn btn-default filter" id="showCustom">Go</div>
+    </div>
+  
+    <div class="row">
+      <span class="col-sm-1">Title:</span>
+      <input class="col-sm-5" type="text" id="newTitle" required>
+      <span class="col-sm-1">Tags: </span>
+      <input class="col-sm-5" type="text" id="newTag">
+    </div>
+    <div class="row">
+      <span class="col-sm-1">Content:</span>
+      <input class="col-sm-11" type="text" id="newContent">
+    </div>
+    <div class="row">
+      <div class="col-sm-6 btn btn-default" id="addQuestion">Submit</div>      
+      <!-- Show tags -->
+    </div>
+  </div>
+  <br>
+  <div class="container" id="labels">
+    <div class="row">
+      <div class="col-sm-2 btn btn-default" id="sortAlpha">Title</div>      
+      <div class="col-sm-2 col-sm-offset-5 btn btn-default" id="sortDate">Time Posted</div>
+      
+    </div>
+  </div>
+  <div class="container" id="body"></div>
+
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"></script>
+  <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
