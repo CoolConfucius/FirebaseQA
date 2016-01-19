@@ -3,8 +3,6 @@
 var ref = new Firebase('https://qa2016.firebaseio.com/'); 
 var qaRef = ref.child('qa'); 
 var $newTitle, $newContent, $newTag, $body;
-var editingQuestion = false; 
-var editObj = {}; 
 var isAdmin = false; 
 
 $(document).ready(function(){
